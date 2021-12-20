@@ -6,7 +6,11 @@ import (
 )
 
 func main()  {
-	client := db.NewStore(1,"mongodb://localhost:27017") 
-	pong := client.Connect()
-	fmt.Println("getting the value", pong)
+	mongoClient := db.NewStore(1,"mongodb://localhost:27017") 
+	pong := mongoClient.Connect()
+	fmt.Println("getting the value mongo", pong)
+	redisClient := db.NewStore(2, "localhost:6379")
+	redisPong := redisClient.Connect()
+	fmt.Println("getting the value redis", redisPong)
+
 }
