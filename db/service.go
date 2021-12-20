@@ -14,9 +14,9 @@ type DbConnector interface {
 func NewStore(t StorageType, DBurl string) DbConnector {
     switch t {
     case mongoDB:
-		return NewMongoClient(DBurl)
+		return newMongoClient(DBurl)
     case redisDB:
-		return NewRedisClient(DBurl)
+		return newRedisClient(DBurl)
 	}
 	return nil
 }

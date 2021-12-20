@@ -14,7 +14,7 @@ type mongoClient struct {
 	cl *mongo.Client
 }
 
-func NewMongoClient(dbUrl string) DbConnector {
+func newMongoClient(dbUrl string) DbConnector {
 	c, err := mongo.NewClient(options.Client().ApplyURI(dbUrl))
 	if err != nil {
 		panic(err)

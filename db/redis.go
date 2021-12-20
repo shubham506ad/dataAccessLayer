@@ -10,7 +10,7 @@ type redisClient struct {
 	cl *redis.Client
 }
 
-func NewRedisClient(dbUrl string) DbConnector {
+func newRedisClient(dbUrl string) DbConnector {
 	client := redis.NewClient(&redis.Options{
 		Addr: dbUrl,
 		Password: "",
