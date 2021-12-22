@@ -29,7 +29,7 @@ func NewStore(t StorageType, DBurl string, DBname string) DbConnector {
     case mongoDB:
 		return newMongoClient(DBurl, DBname)
     case redisDB:
-		return nil
+		return newRedisClient(DBurl)
 	}
 	return nil
 }
