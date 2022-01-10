@@ -9,8 +9,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type MongoConfigType struct {
+	DbType int
+	DbUrl string
+	DbName string
+}
+
 func Test_mongoClient_InsertOne(t *testing.T) {
-	var mongoTestingClient = db.NewStore(1,"mongodb://localhost:27017", "tester")
+	var mongoTestingClient = db.NewStore(MongoConfigType{DbType: 1, DbUrl: "mongodb://localhost:27017", DbName: "tester"})
 	mongoTestingClient.Connect()
 	defer mongoTestingClient.Cancel()
 
@@ -46,7 +52,7 @@ func Test_mongoClient_InsertOne(t *testing.T) {
 }
 
 func Test_mongoClient_InsertMany(t *testing.T) {
-	var mongoTestingClient = db.NewStore(1,"mongodb://localhost:27017", "tester")
+	var mongoTestingClient = db.NewStore(MongoConfigType{DbType: 1, DbUrl: "mongodb://localhost:27017", DbName: "tester"})
 	mongoTestingClient.Connect()
 	defer mongoTestingClient.Cancel()
 	type args struct {
@@ -87,7 +93,7 @@ func Test_mongoClient_InsertMany(t *testing.T) {
 }
 
 func Test_mongoClient_FindMany(t *testing.T) {
-	var mongoTestingClient = db.NewStore(1,"mongodb://localhost:27017", "tester")
+	var mongoTestingClient = db.NewStore(MongoConfigType{DbType: 1, DbUrl: "mongodb://localhost:27017", DbName: "tester"})
 	mongoTestingClient.Connect()
 	defer mongoTestingClient.Cancel()
 	type args struct {
@@ -98,7 +104,7 @@ func Test_mongoClient_FindMany(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    []bson.M
+		want    []interface{}
 		wantErr bool
 	}{
 		{
@@ -123,7 +129,7 @@ func Test_mongoClient_FindMany(t *testing.T) {
 }
 
 func Test_mongoClient_FindOne(t *testing.T) {
-	var mongoTestingClient = db.NewStore(1,"mongodb://localhost:27017", "tester")
+	var mongoTestingClient = db.NewStore(MongoConfigType{DbType: 1, DbUrl: "mongodb://localhost:27017", DbName: "tester"})
 	mongoTestingClient.Connect()
  	defer mongoTestingClient.Cancel()
 
@@ -157,7 +163,7 @@ func Test_mongoClient_FindOne(t *testing.T) {
 
 
 func Test_mongoClient_UpdateOne(t *testing.T) {
-	var mongoTestingClient = db.NewStore(1,"mongodb://localhost:27017", "tester")
+	var mongoTestingClient = db.NewStore(MongoConfigType{DbType: 1, DbUrl: "mongodb://localhost:27017", DbName: "tester"})
 	mongoTestingClient.Connect()
  	defer mongoTestingClient.Cancel()
 
@@ -191,7 +197,7 @@ func Test_mongoClient_UpdateOne(t *testing.T) {
 }
 
 func Test_mongoClient_UpdateMany(t *testing.T) {
-	var mongoTestingClient = db.NewStore(1,"mongodb://localhost:27017", "tester")
+	var mongoTestingClient = db.NewStore(MongoConfigType{DbType: 1, DbUrl: "mongodb://localhost:27017", DbName: "tester"})
 	mongoTestingClient.Connect()
  	defer mongoTestingClient.Cancel()
 

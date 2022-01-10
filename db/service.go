@@ -4,7 +4,7 @@ package db
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/bson"
+	"github.com/mitchellh/mapstructure"
 )
 
 type StorageType int
@@ -20,7 +20,7 @@ The functions that are exposed to be used by multiple databases
 type DbConnector interface {
 	Connect() error
 	FindOne(context.Context, string, interface{}) (interface{}, error)
-	FindMany(context.Context, string, interface{}) ([]bson.M, error)
+	FindMany(context.Context, string, interface{}) ([]interface{}, error)
 	InsertOne(context.Context, string, interface{}) (interface{}, error)
 	InsertMany(context.Context, string, []interface{}) ([]interface{}, error)
 	UpdateOne(context.Context, string, interface{}, interface{}) (interface{}, error)
@@ -32,12 +32,22 @@ type SingleResultHelper interface {
 	Decode(v interface{}) error
 }
 
-func NewStore(t StorageType, DBurl string, DBname string) DbConnector {
-    switch t {
+
+type DbConfig struct {
+    DbType StorageType
+    DbUrl string
+    DbName string
+}
+
+func NewStore(config interface{}) DbConnector {
+	configDoc := DbConfig{}
+	mapstructure.Decode(config, &configDoc)
+
+    switch configDoc.DbType {
     case mongoDB:
-		return newMongoClient(DBurl, DBname)
+		return newMongoClient(configDoc.DbUrl, configDoc.DbName)
     case redisDB:
-		return nil
+		return newRedisClient(configDoc.DbUrl)
 	}
 	return nil
 }

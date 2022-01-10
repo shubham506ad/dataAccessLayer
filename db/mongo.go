@@ -62,12 +62,12 @@ func (mc *mongoClient) FindOne(ctx context.Context, collection string, filter in
 	return singleDoc, nil
 }
 
-func (mc *mongoClient) FindMany(ctx context.Context, collection string, filter interface{}) ([]bson.M, error) {
+func (mc *mongoClient) FindMany(ctx context.Context, collection string, filter interface{}) ([]interface{}, error) {
 	result, err := mc.db.Collection(collection).Find(ctx, filter)
 	if err != nil {
 		panic(err)
 	}
-	var resultMap []bson.M
+	var resultMap []interface{}
 	if err = result.All(ctx, &resultMap); err != nil {
 		log.Fatal(err)
 	}
